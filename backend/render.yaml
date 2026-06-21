@@ -1,0 +1,27 @@
+databases:
+  - name: contractiq-db
+    plan: free
+    databaseName: contractiq
+    user: contractiq
+
+services:
+  - type: web
+    name: contractiq-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: contractiq-db
+          property: connectionString
+      - key: Jwt__Key
+        generateValue: true
+      - key: Jwt__Issuer
+        value: ContractIQ.Api
+      - key: Jwt__Audience
+        value: ContractIQ.Client
+      - key: Frontend__Origin
+        sync: false
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production

@@ -1,9 +1,7 @@
-// Базовий URL backend API. У продакшені виноси в .env (VITE_API_URL).
-const API_BASE_URL = 'http://localhost:5080/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5080/api';
 
 const TOKEN_STORAGE_KEY = 'contractiq_token';
 
-// ── Зберігання токена ──
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_STORAGE_KEY);
 }
@@ -16,7 +14,6 @@ export function clearToken(): void {
   localStorage.removeItem(TOKEN_STORAGE_KEY);
 }
 
-// ── Помилка API з кодом статусу і повідомленням від сервера ──
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -61,9 +58,6 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   return handleResponse<T>(response);
 }
 
-// Окрема функція для multipart/form-data (завантаження файлів).
-// Content-Type НЕ ставимо вручну — браузер сам додає правильний заголовок
-// з boundary, який потрібен серверу для розбору частин форми.
 async function requestFormData<T>(path: string, formData: FormData): Promise<T> {
   const url = `${API_BASE_URL}${path}`;
   const headers: Record<string, string> = {};
@@ -91,9 +85,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
     try {
       const data = await response.json();
       message = data?.message ?? message;
-    } catch {
-      // response body wasn't JSON — keep default message
-    }
+    } catch {}
     throw new ApiError(response.status, message);
   }
 
@@ -119,7 +111,6 @@ export const api = {
     requestFormData<T>(path, formData),
 };
 
-// Окремий хелпер для завантаження (скачування) файлу як Blob, з підстановкою токена авторизації.
 export async function downloadFile(path: string): Promise<Blob> {
   const url = `${API_BASE_URL}${path}`;
   const headers: Record<string, string> = {};
