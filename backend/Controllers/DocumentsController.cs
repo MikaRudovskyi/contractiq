@@ -31,7 +31,6 @@ public class DocumentsController : ControllerBase
         [FromQuery] bool? expiringSoon,
         [FromQuery] Guid? contractorId)
     {
-        // Auto-expire documents whose expiry date has passed
         var expiredIds = await _db.Documents
             .Where(d => d.ExpiresAt != null && d.ExpiresAt < DateTime.UtcNow && d.Status != DocumentStatus.Expired)
             .Select(d => d.Id).ToListAsync();
@@ -75,18 +74,31 @@ public class DocumentsController : ControllerBase
         return d is null ? NotFound() : Ok(MapToDto(d));
     }
 
+    public class UploadDocumentForm
+    {
+        public IFormFile File { get; set; } = null!;
+        public string Title { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public Guid? ContractorId { get; set; }
+        public Guid? ContractId { get; set; }
+        public DateTime? ExpiresAt { get; set; }
+        public string? Notes { get; set; }
+    }
+
     [HttpPost("upload")]
     [Authorize(Roles = "Admin,Manager,Finance")]
-    [RequestSizeLimit(30 * 1024 * 1024)] // 30 МБ — трохи більше за ліміт сервісу, щоб саме сервіс віддавав зрозумілу помилку
-    public async Task<ActionResult<DocumentDto>> Upload(
-        [FromForm] IFormFile file,
-        [FromForm] string title,
-        [FromForm] string type,
-        [FromForm] Guid? contractorId,
-        [FromForm] Guid? contractId,
-        [FromForm] DateTime? expiresAt,
-        [FromForm] string? notes)
+    [RequestSizeLimit(30 * 1024 * 1024)]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<DocumentDto>> Upload([FromForm] UploadDocumentForm form)
     {
+        var file = form.File;
+        var title = form.Title;
+        var type = form.Type;
+        var contractorId = form.ContractorId;
+        var contractId = form.ContractId;
+        var expiresAt = form.ExpiresAt;
+        var notes = form.Notes;
+
         if (contractorId is null && contractId is null)
             return BadRequest(new { message = "Документ повинен бути прив'язаний до підрядника або договору" });
 
