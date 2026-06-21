@@ -16,9 +16,7 @@ export const LoginPage: React.FC = () => {
     try {
       await login(email, password);
       navigate('/dashboard');
-    } catch {
-      // error вже доступний через useAuth().error
-    } finally {
+    } catch {} finally {
       setSubmitting(false);
     }
   };
