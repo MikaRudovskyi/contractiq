@@ -33,7 +33,7 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, wi
       onClick={onClose}
     >
       <div
-        className="card"
+        className="card modal-card"
         style={{ width, maxWidth: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}
         onClick={e => e.stopPropagation()}
       >

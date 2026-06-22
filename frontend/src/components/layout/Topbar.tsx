@@ -1,8 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Menu } from 'lucide-react';
 import { initials } from '../../utils/format';
 import { useAuth } from '../../hooks/useAuth';
+import { useMobileNav } from '../../hooks/useMobileNav';
 
 const PAGE_TITLES: Record<string, string> = {
   '/dashboard':   'Дашборд',
@@ -18,14 +19,19 @@ const PAGE_TITLES: Record<string, string> = {
 export const Topbar: React.FC = () => {
   const loc = useLocation();
   const { user } = useAuth();
+  const { toggle } = useMobileNav();
   const title = PAGE_TITLES[loc.pathname] ?? 'ContractIQ';
 
   return (
     <header className="topbar">
+      <button className="burger-btn" onClick={toggle} aria-label="Меню">
+        <Menu size={20} />
+      </button>
+
       <span className="topbar-title">{title}</span>
       <div className="topbar-spacer" />
       <div className="topbar-actions">
-        <div className="input-wrap" style={{ display: 'flex' }}>
+        <div className="input-wrap topbar-search">
           <Search size={14} className="input-icon" />
           <input
             type="search"

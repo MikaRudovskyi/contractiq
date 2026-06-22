@@ -24,9 +24,9 @@ export const LoginPage: React.FC = () => {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'var(--ink-05)'
+      background: 'var(--ink-05)', padding: 16
     }}>
-      <div className="card" style={{ width: 380, padding: 32 }}>
+      <div className="card login-card" style={{ width: 380, maxWidth: '100%', padding: 32 }}>
         <div className="flex items-center gap-8 mb-16" style={{ justifyContent: 'center' }}>
           <div className="sidebar-logo-mark" style={{ width: 36, height: 36, fontSize: 15 }}>CQ</div>
           <span style={{ fontSize: 18, fontWeight: 700 }}>ContractIQ</span>

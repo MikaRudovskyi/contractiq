@@ -88,7 +88,7 @@ export const WorkOrdersBoard: React.FC = () => {
       ) : loading ? (
         <div className="empty-state"><div className="empty-state-desc">Завантаження…</div></div>
       ) : view === 'board' ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
+        <div className="kanban-board">
           {COLUMNS.map(col => {
             const colItems = items.filter(w => w.status === col.key);
             return (
