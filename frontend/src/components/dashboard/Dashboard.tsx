@@ -43,10 +43,11 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: 'white', border: '1px solid #E5E7EB',
-      borderRadius: 8, padding: '10px 14px', boxShadow: '0 4px 6px rgba(0,0,0,.07)'
+      background: 'rgba(17,20,37,.95)', border: '1px solid rgba(255,255,255,.12)',
+      borderRadius: 10, padding: '10px 14px', boxShadow: '0 8px 30px rgba(0,0,0,.5)',
+      backdropFilter: 'blur(10px)'
     }}>
-      <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 13 }}>{label}</div>
+      <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 13, color: '#e8eaf6' }}>{label}</div>
       {payload.map((p: any) => (
         <div key={p.name} style={{ fontSize: 12, color: p.color, display: 'flex', gap: 8, justifyContent: 'space-between' }}>
           <span>{p.name === 'paid' ? 'Оплачено' : 'Заплановано'}</span>
@@ -157,10 +158,10 @@ export const Dashboard: React.FC = () => {
             ) : (
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={chartData} barSize={20} barCategoryGap="30%">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.06)" vertical={false} />
+                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'rgba(232,234,246,.4)' }} axisLine={false} tickLine={false} />
                   <YAxis
-                    tick={{ fontSize: 11, fill: '#6B7280' }}
+                    tick={{ fontSize: 11, fill: 'rgba(232,234,246,.4)' }}
                     axisLine={false} tickLine={false}
                     tickFormatter={(v) => `${v / 1_000_000}M`}
                   />
@@ -168,10 +169,10 @@ export const Dashboard: React.FC = () => {
                   <Legend
                     iconType="circle" iconSize={8}
                     formatter={(v) => v === 'paid' ? 'Оплачено' : 'Заплановано'}
-                    wrapperStyle={{ fontSize: 12 }}
+                    wrapperStyle={{ fontSize: 12, color: 'rgba(232,234,246,.6)' }}
                   />
-                  <Bar dataKey="scheduled" fill="#EFF6FF" stroke="#BFDBFE" radius={[4,4,0,0]} />
-                  <Bar dataKey="paid" fill="#2563EB" radius={[4,4,0,0]} />
+                  <Bar dataKey="scheduled" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)" radius={[4,4,0,0]} />
+                  <Bar dataKey="paid" fill="#7c3aed" radius={[4,4,0,0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}

@@ -7,7 +7,7 @@ import { contractorsApi } from '../../services/contractorsApi';
 import { useApiData } from '../../hooks/useApiData';
 import { formatMoney } from '../../utils/format';
 
-const COLORS = ['#2563EB', '#0891B2', '#059669', '#D97706', '#DC2626', '#6B7280'];
+const COLORS = ['#7c3aed', '#06b6d4', '#10b981', '#f59e0b', '#f43f5e', '#a855f7'];
 
 const CAT_LABELS: Record<string, string> = {
   construction: 'Будівництво', electrical: 'Електрика', plumbing: 'Сантехніка',
@@ -71,10 +71,18 @@ export const Analytics: React.FC = () => {
                         <Cell key={i} fill={COLORS[i % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(v) => formatMoney(Number(v))} />
+                    <Tooltip
+                      formatter={(v) => formatMoney(Number(v))}
+                      contentStyle={{
+                        background: 'rgba(17,20,37,.95)', border: '1px solid rgba(255,255,255,.12)',
+                        borderRadius: 10, backdropFilter: 'blur(10px)'
+                      }}
+                      itemStyle={{ color: '#e8eaf6' }}
+                      labelStyle={{ color: '#e8eaf6' }}
+                    />
                     <Legend
                       formatter={(v) => CAT_LABELS[v] ?? v}
-                      wrapperStyle={{ fontSize: 12 }}
+                      wrapperStyle={{ fontSize: 12, color: 'rgba(232,234,246,.6)' }}
                     />
                   </PieChart>
                 </ResponsiveContainer>

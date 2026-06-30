@@ -37,7 +37,7 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, wi
         style={{ width, maxWidth: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="card-header" style={{ position: 'sticky', top: 0, background: 'white', zIndex: 1 }}>
+        <div className="card-header" style={{ position: 'sticky', top: 0, background: 'rgba(17,20,37,.92)', backdropFilter: 'blur(10px)', zIndex: 1 }}>
           <span className="card-title">{title}</span>
           <button className="btn btn-ghost btn-icon" onClick={onClose}>
             <X size={16} />
